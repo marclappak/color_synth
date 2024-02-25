@@ -109,18 +109,30 @@ void initColorWheel(double sizeX, double sizeY) {
 double getHue(double x, double y) {
   int i = (x + canvaWidth * y).toInt();
   if (wheelH[i] > -1) {
-    //recalc
-    double centerX = 370 / 2.0;
-    double centerY = 370 / 2.0;
+    //recalc ist sicherer, warum?
+    double centerX = canvaWidth / 2.0;
+    double centerY = canvaWidth / 2.0;
 
-    double dx = x - centerX, dy = y - centerY;
+    double dx = x - centerX
+    double dy = y - centerY;
 
-    double testR = math.sqrt(dx * dx + dy * dy);
-    print("testR=$testR");
-    double Angle = math.asin(dy.abs() / testR) * radToDegree;
-    print("Angle=$Angle wheelH[i]=${wheelH[i]}");
+    double radius = math.sqrt(dx * dx + dy * dy);
+    if (radius>centerX){
+      print("außerhalb!");
+    }
+    else {
+      print ("radius=$radius");
+    }
 
-    print("x=$x ->${wheelX[i]} y=$y -> ${wheelY[i]} ");
+
+
+
+  //  print("testR=$testR");
+    double Angle = math.asin(dy.abs() / radius) * radToDegree;
+   // print("Angle=$Angle wheelH[i]=${wheelH[i]}");
+
+//    print("i=$i x=$x -> ${wheelX[i]}");
+//  print("y=$y -> ${wheelY[i]}");
     return wheelH[i];
   } else {
     return 0.0;

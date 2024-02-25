@@ -56,7 +56,7 @@ class _ColorPickerState extends State<ColorPicker> {
   void _changeColor() {
     setState(() {
       // Change the color to a different one
-      print("mcs=$mcs");
+      //print("mcs=$mcs");
       _containerColor1 = HSLColor.fromAHSL(1, mch, mcs, mcl).toColor();
     });
   }
