@@ -113,23 +113,27 @@ double getHue(double x, double y) {
     double centerX = canvaWidth / 2.0;
     double centerY = canvaWidth / 2.0;
 
-    double dx = x - centerX
+    double dx = x - centerX;
     double dy = y - centerY;
 
     double radius = math.sqrt(dx * dx + dy * dy);
-    if (radius>centerX){
+    if (radius > centerX) {
       print("außerhalb!");
+    } else {
+      print("radius=$radius");
     }
-    else {
-      print ("radius=$radius");
-    }
 
-
-
-
-  //  print("testR=$testR");
+    //  print("testR=$testR");
     double Angle = math.asin(dy.abs() / radius) * radToDegree;
-   // print("Angle=$Angle wheelH[i]=${wheelH[i]}");
+    if (dx > 0) {
+      if dy> 0{
+        //oben rechts
+        Angle=180-Angle;
+        work here
+      }
+    }
+
+    //print("Angle=$Angle wheelH[i]=${wheelH[i]}");
 
 //    print("i=$i x=$x -> ${wheelX[i]}");
 //  print("y=$y -> ${wheelY[i]}");
