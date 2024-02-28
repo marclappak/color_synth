@@ -60,9 +60,6 @@ void initColorWheel(double sizeX, double sizeY) {
       wheelY[i] = y;
       double X = x.toDouble() - centerX;
       double Y = y.toDouble() - centerY;
-      //print("i=$i ${x + y * canvaWidth.toInt()}");
-      //if (i == 10000) print("vorher: i=10000 ${wheelX[10000]}");
-
       wheelR[i] = math.sqrt(X * X + Y * Y);
       if (wheelR[i] > centerY) {
         //zu groß
@@ -70,7 +67,7 @@ void initColorWheel(double sizeX, double sizeY) {
       } else {
         //im Kreis, also Farbwinkel berechenbar
         if (wheelR[i] > canvaWidth / 2) {
-          print("Alarm! $X $Y");
+       //   print("Alarm! $X $Y");
         }
         wheelH[i] = math.asin(Y.abs() / wheelR[i]) * radToDegree;
         //horizontale Symmetrie
@@ -106,39 +103,46 @@ void initColorWheel(double sizeX, double sizeY) {
   } //y-Schleife
 }
 
-double getHue(double x, double y) {
-  int i = (x + canvaWidth * y).toInt();
-  if (wheelH[i] > -1) {
-    //recalc ist sicherer, warum?
-    double centerX = canvaWidth / 2.0;
-    double centerY = canvaWidth / 2.0;
+void getHue(double x, double y, double newMCL) {
+  //recalc ist sicherer, warum?
+  double centerX = canvaWidth / 2.0;
+  double centerY = canvaWidth / 2.0;
+  double Angle = -1;
 
-    double dx = x - centerX;
-    double dy = y - centerY;
+  double dx = x - centerX;
+  double dy = y - centerY;
 
-    double radius = math.sqrt(dx * dx + dy * dy);
-    if (radius > centerX) {
-      print("außerhalb!");
+  double radius = math.sqrt(dx * dx + dy * dy);
+  if (radius < centerX) {
+//    print("dx=$dx dy=$dy radius=$radius");
+    //Angle = math.asin(dy.abs() / radius) * radToDegree;
+    if (dx < 0 && dy < 0) {
+    //  print("oben links");
+      Angle = math.asin(dy.abs() / radius) * radToDegree;
+    } else if (dx >= 0 && dy < 0) {
+   //   print("oben rechts");
+      Angle = 180 - math.asin(dy.abs() / radius) * radToDegree;
+    }
+    if (dx < 0 && dy > 0) {
+   //   print("unten links");
+      Angle = 360 - math.asin(dy.abs() / radius) * radToDegree;
+    } else if (dx >= 0 && dy > 0) {
+    //  print("unten rechts");
+      Angle = 180 + math.asin(dy.abs() / radius) * radToDegree;
+    }
+    if (setMainColor) {
+      mch = Angle;
+      mcs = radius / centerX;
+      mcl = newMCL;
     } else {
-      print("radius=$radius");
+      mch2 = Angle;
+      mcs2 = radius / centerX;
+      mcl2 = newMCL;
     }
+    setMainColor = !setMainColor;
 
-    //  print("testR=$testR");
-    double Angle = math.asin(dy.abs() / radius) * radToDegree;
-    if (dx > 0) {
-      if dy> 0{
-        //oben rechts
-        Angle=180-Angle;
-        work here
-      }
-    }
-
-    //print("Angle=$Angle wheelH[i]=${wheelH[i]}");
-
-//    print("i=$i x=$x -> ${wheelX[i]}");
-//  print("y=$y -> ${wheelY[i]}");
-    return wheelH[i];
-  } else {
-    return 0.0;
+//    print("Angle=$Angle");
   }
+
+//  return Angle;
 }

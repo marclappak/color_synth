@@ -7,7 +7,6 @@ const TargetPlatform platform = TargetPlatform.android;
 void myWheel() {//used to be main
 //  canvaWidth = size.width;
   initColorWheel(canvaWidth.toDouble(), canvaHeight.toDouble()); //dauert lange 
-  getHue(109, 100);
   runApp(ColorPicker());
 }
 
@@ -20,7 +19,7 @@ class ColorPickerPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     for (int i = 0; i < numCanvaPoints; i++) {
        drawSeed(canvas, wheelX[i].toDouble(), wheelY[i].toDouble(), wheelH[i],
-          wheelR[i] / 185.0);
+          2*wheelR[i] / canvaWidth);
     }
   }
 
@@ -52,12 +51,14 @@ class ColorPicker extends StatefulWidget {
 class _ColorPickerState extends State<ColorPicker> {
   int get lumi => lum.floor();
   Color _containerColor1 = mainColor; // Initial color
+  Color _containerColor2 = mainColor; // Initial color
 
   void _changeColor() {
     setState(() {
       // Change the color to a different one
       //print("mcs=$mcs");
       _containerColor1 = HSLColor.fromAHSL(1, mch, mcs, mcl).toColor();
+      _containerColor2 = HSLColor.fromAHSL(1, mch2, mcs2, mcl2).toColor();
     });
   }
 
@@ -87,8 +88,8 @@ class _ColorPickerState extends State<ColorPicker> {
               DrawerHeader(
                 child: Center(
                   child: Text(
-                    "ColorPicker help",
-                    style: TextStyle(fontSize: 32),
+                    "ColorPicker help\nchoose two colors by tapping the color wheel.\nYou can also set the luminosity\nwith the slider.",
+                    style: TextStyle(fontSize: 16),
                   ),
                 ),
               ),
@@ -118,32 +119,16 @@ class _ColorPickerState extends State<ColorPicker> {
                   
                   child: GestureDetector(
                    onTapDown: (TapDownDetails details) {
-                      //print("Tapped the circle");
                       double x = details.localPosition.dx;
                       double y = details.localPosition.dy;
                       int index = (y * canvaWidth + x).toInt();
-                      if (setMainColor) {
-                        mch = getHue(x, y);
-                        mcs = 2 * wheelR[index] / canvaWidth;
-//                        print("R=${wheelR[index]}");
-/*                        if (mcs < 0) {
-//                        print("s unter 0");
-                        } else if (mcs > 1) {
-//                        print("s über 1");
-                        }*/
-                        mcl = lumi.toDouble() / 100.0;
-                        //mainColor = HSLColor.fromAHSL(1, mch, mcs, mcl).toColor();
-                        //mainColor = Colors.red;
+//                      if (setMainColor) {
+                        getHue(x, y,lumi.toDouble() / 100.0);
+                        //mcs = 2 * wheelR[index] / canvaWidth;
+                        //mcl = lumi.toDouble() / 100.0;
                         _changeColor();
-                        //_containerColor1 = Colors.red;
-                      }
-                    },
-					
-                        // You can add your sound logic here
-          //                  print('x-Koordinate: ${details.localPosition.dx}');
-          //                  print('y-Koordinate: ${details.localPosition.dy}');
-
-      //},
+  //                    }
+                    },					
                     child: CustomPaint(
                       painter: ColorPickerPainter(lumi),
                     ),
@@ -183,7 +168,7 @@ class _ColorPickerState extends State<ColorPicker> {
           width: 40,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            color: mainColor,
+            color: _containerColor2,
             )
         ),
             ],
