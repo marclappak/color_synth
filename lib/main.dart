@@ -4,15 +4,33 @@ import 'prerun.dart';
 import 'starter.dart';
 import 'color_wheel.dart';
 import 'drawpoints.dart';
+//import 'dart:io';
+//import 'package:flutter/foundation.dart' show kIsWeb;
 
 void main() {
-  initColorWheel(canvaWidth, canvaHeight);
+/*
+if (Platform.isAndroid) {
+  print('Running on Android');
+} else if (Platform.isIOS) {
+  print('Running on iOS');
+} else if (Platform.isLinux) {
+  print('Running on Linux');
+} else if (Platform.isWindows) {
+  print('Running on Windows');
+} else if (Platform.isMacOS) {
+  print('Running on macOS');
+} else if (kIsWeb) {
+  print('Running in a web browser');
+}*/
+
+  //initColorWheel(canvaWidth, canvaHeight);
+  initColorWheel(215, 215);
   runApp(const WithBottomNavigationBarApp());
 }
 //void main() => runApp(const WithBottomNavigationBarApp());
 
 class WithBottomNavigationBarApp extends StatelessWidget {
- const WithBottomNavigationBarApp({super.key});
+  const WithBottomNavigationBarApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +50,7 @@ class WithBottomNavigationBar extends StatefulWidget {
       _WithBottomNavigationBarState();
 }
 
-class _WithBottomNavigationBarState
-    extends State<WithBottomNavigationBar> {
+class _WithBottomNavigationBarState extends State<WithBottomNavigationBar> {
   int _selectedIndex = 0;
   //static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
@@ -122,7 +139,7 @@ class Tuning extends StatelessWidget {
   const Tuning({super.key});
   @override
   Widget build(BuildContext context) {
-    return const Sunflower();
+    return const MyFlower();
   }
 }
 
@@ -130,6 +147,18 @@ class Export extends StatelessWidget {
   const Export({super.key});
   @override
   Widget build(BuildContext context) {
-    return const Text("Hier werden die Codes exportiert.");
+      String outputText = "here are the hex-codes:\n";
+    for (int i = 0; i < 16; i++) {
+      Color tempColor = HSLColor.fromAHSL(1, paletteH[i], paletteS[i], paletteL[i]).toColor();
+      int r = (tempColor.red).toInt();
+      int g = (tempColor.green).toInt();
+      int b = (tempColor.blue).toInt();
+      int theCode=r*256*256+g*256+b;
+      String hexCode = theCode.toRadixString(16);
+      //print("hexCode=$hexCode");
+
+    outputText += "color$i='$hexCode'\n";
+    }
+    return SelectableText("$outputText");
   }
 }

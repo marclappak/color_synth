@@ -6,9 +6,91 @@ const TargetPlatform platform = TargetPlatform.android;
 
 void myWheel() {//used to be main
 //  canvaWidth = size.width;
-  initColorWheel(canvaWidth.toDouble(), canvaHeight.toDouble()); //dauert lange 
+  initColorWheel(canvaWidth, canvaHeight); //dauert lange 
   runApp(ColorPicker());
 }
+
+Padding myPaletteElement(int index) {
+  const double palettSize = 40;
+
+  switch (palletteType) {
+    case "linear":
+      //print("HSL!");
+      paletteH[0] = mch;
+      paletteH[15] = mch2;
+      paletteS[0] = mcs;
+      paletteS[15] = mcs2;
+      paletteL[0] = mcl;
+      paletteL[15] = mcl2;
+      
+//kürzeste Strecke bestimmen
+
+  double Strecke;
+  if (paletteH[0] < paletteH[15]) {
+    if (paletteH[15] - paletteH[0] < 180.0) {
+      Strecke = paletteH[15] - paletteH[0];
+    } else {
+      //Richtungswechsel
+      Strecke = paletteH[15] - paletteH[0] - 360.0;
+    }
+  } else {
+    if (paletteH[0] - paletteH[15] < 180.0) {
+      Strecke = paletteH[15]-paletteH[0];
+    } else {
+      //Richtungswechsel
+      Strecke = 360 + paletteH[15] - paletteH[0];
+    }
+  }
+  
+
+
+
+
+
+
+
+
+/*      double distanceH = paletteH[15] - paletteH[0];
+      if (distanceH.abs() > 180)
+        paletteH[15] -= 360; //Das Problem gibt es nur mit Hue
+      distanceH = paletteH[15] - paletteH[0];*/
+      double aH =Strecke / 15.0;
+      double bH = mch;
+      double aS = (mcs2 - mcs) / 15.0;//kein Kreis, einfacher
+      double bS = mcs;
+      double aL = (mcl2 - mcl) / 15.0;//kein Kreis, einfacher
+      double bL = mcl;
+      //print(paletteH[0]);
+      for (int i = 0; i < 16; i++) {
+        paletteH[i] = aH * i.toDouble() + bH;
+        paletteS[i] = aS * i.toDouble() + bS;
+        paletteL[i] = aL * i.toDouble() + bL;
+        if (paletteH[i] < 0) paletteH[i]   += 360;//zurück ins Positive muss sein
+        if (paletteH[i] > 360) paletteH[i] -= 360;//muss unter 360 bleiben
+        
+        //print("$i ${paletteH[i]}");
+      }
+
+      break;
+    case "yretsym":
+    case "henon":
+  }
+
+  return Padding(
+    padding: const EdgeInsets.all(2.0),
+    child: Container(
+      width: palettSize,
+      height: palettSize,
+      decoration: BoxDecoration(
+        color: HSLColor.fromAHSL(
+                1, paletteH[index], paletteS[index], paletteL[index])
+            .toColor(),
+        borderRadius: BorderRadius.circular(palettSize / 2),
+      ),
+    ),
+  );
+}
+
 
 class ColorPickerPainter extends CustomPainter {
   static const dotRadius = 1.5;
@@ -68,7 +150,7 @@ class _ColorPickerState extends State<ColorPicker> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData().copyWith(
-        platform: platform,
+       // platform: platform,
         brightness: Brightness.dark,
         sliderTheme: SliderThemeData.fromPrimaryColors(
           primaryColor: primaryColor,
@@ -79,7 +161,7 @@ class _ColorPickerState extends State<ColorPicker> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("ColorPicker"),
+          title: const Text("ColorPicker & Palette"),
         ),
         drawer: Drawer(
           child: ListView(
@@ -88,8 +170,8 @@ class _ColorPickerState extends State<ColorPicker> {
               DrawerHeader(
                 child: Center(
                   child: Text(
-                    "ColorPicker help\nchoose two colors by tapping the color wheel.\nYou can also set the luminosity\nwith the slider.",
-                    style: TextStyle(fontSize: 16),
+                    "ColorPicker help\nchoose two colors by tapping the color wheel.\nYou can also set the luminosity\nwith the slider.\n THE COLOR-PALETTE IS SHOWN IMMEDIATELY√\nmade by Marc Lingk for App-Akademie Berlin",
+                    style: TextStyle(fontSize: 12),
                   ),
                 ),
               ),
@@ -104,73 +186,153 @@ class _ColorPickerState extends State<ColorPicker> {
             ),
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
+            //crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.transparent,
-                  ),
-                ),
-                child: SizedBox(
-                  width:  canvaWidth,
-                  height: canvaHeight,
-                  
-                  child: GestureDetector(
-                   onTapDown: (TapDownDetails details) {
-                      double x = details.localPosition.dx;
-                      double y = details.localPosition.dy;
-                      int index = (y * canvaWidth + x).toInt();
-//                      if (setMainColor) {
-                        getHue(x, y,lumi.toDouble() / 100.0);
-                        //mcs = 2 * wheelR[index] / canvaWidth;
-                        //mcl = lumi.toDouble() / 100.0;
-                        _changeColor();
-  //                    }
-                    },					
-                    child: CustomPaint(
-                      painter: ColorPickerPainter(lumi),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                    ),
+                    child: SizedBox(
+                      width:  canvaWidth,
+                      height: canvaHeight,                      
+                      child: GestureDetector(
+                       onTapDown: (TapDownDetails details) {
+                          double x = details.localPosition.dx;
+                          double y = details.localPosition.dy;
+                          int index = (y * canvaWidth + x).toInt();
+                            getHue(x, y,lumi.toDouble() / 100.0);
+                            _changeColor();
+                        },					
+                        child: CustomPaint(
+                          painter: ColorPickerPainter(lumi),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
-              Text("Set light to $lumi %"),
-              ConstrainedBox(
-                constraints: const BoxConstraints.tightFor(width: 300),
-                child: Slider.adaptive(
-                  min: minLumi,
-                  max: 100,
-                  value: lum,
-                  onChanged: (newValue) {
-                    setState(() {
-                      lum = newValue;
-                    });
-                  },
-                ),
+              
+              Row(//der Light-Slider
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(" Light:"),
+                  ConstrainedBox(
+                    constraints: const BoxConstraints.tightFor(width: 250),
+                    child: Slider.adaptive(
+                      min: minLumi,
+                      max: 100,
+                      value: lum,
+                      onChanged: (newValue) {
+                        setState(() {
+                          lum = newValue;
+                        });
+                      },
+                    ),
+                  ),
+                ],
               ),
-        Container(
-         child: Text("main color set to:")
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+/*            Container(
+             child: Text("main color set to:")
+            ),*/
+            Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(40),
+                color: _containerColor1,
+                )
+            ),
+            Container(
+             //child: Text("secondary color set to:")
+             child: Text("---------------------------------->")
+            ),
+            Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: _containerColor2,
+                )
+            ),
+          ],
         ),
-        Container(
-          height: 40,
-          width: 40,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(40),
-            color: _containerColor1,
-            )
-        ),
-        Container(
-         child: Text("secondary color set to:")
-        ),
-        Container(
-          height: 40,
-          width: 40,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: _containerColor2,
-            )
-        ),
+        /*
+            Container(//Platzhalter
+              height: 30,
+              width: 80,),
+*/
+              Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+//            Row(Text("Die Bilder sind noch Platzhalter")),
+                    /*const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text("Die Bilder sind noch Platzhalter:",
+                style: TextStyle(fontSize: 19),),
+              ],
+            ),*/
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        myPaletteElement(0),
+                        myPaletteElement(1),
+                        myPaletteElement(2),
+                        myPaletteElement(3),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        myPaletteElement(4),
+                        myPaletteElement(5),
+                        myPaletteElement(6),
+                        myPaletteElement(7),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        myPaletteElement(8),
+                        myPaletteElement(9),
+                        myPaletteElement(10),
+                        myPaletteElement(11),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        myPaletteElement(12),
+                        myPaletteElement(13),
+                        myPaletteElement(14),
+                        myPaletteElement(15),
+                      ],
+                    ),
+                  ],
+                ),
+                /*color: Colors.transparent,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints.tightFor(width: 300),
+                  child: Slider.adaptive(
+                    min: 3,
+                    max: 1450,
+                    value: seeds,
+                    onChanged: (newValue) {
+                      setState(() {
+                        seeds = newValue;
+                      });
+                    },
+                  ),
+                ),*/
+              ),
             ],
           ),
         ),

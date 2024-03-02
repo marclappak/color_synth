@@ -22,10 +22,10 @@ Padding myPaletteElement(int index) {
       paletteS[15] = mcs2;
       paletteL[0] = mcl;
       paletteL[15] = mcl2;
-      
+
       double distanceH = paletteH[15] - paletteH[0];
-      double distanceS = paletteS[15] - paletteS[0];
-      double distanceL = paletteL[15] - paletteL[0];
+      /*     double distanceS = paletteS[15] - paletteS[0];
+      double distanceL = paletteL[15] - paletteL[0];*/
       if (distanceH.abs() > 180)
         paletteH[15] -= 360; //Das Problem gibt es nur mit Hue
       distanceH = paletteH[15] - paletteH[0];
@@ -45,11 +45,11 @@ Padding myPaletteElement(int index) {
         }
         print("$i ${paletteH[i]}");
       }
-        if (paletteH[15] < 0) {
-          paletteH[15] += 360;//zurück ins Positive (KRAUTCODE)
-        }
+      if (paletteH[15] < 0) {
+        paletteH[15] += 360; //zurück ins Positive (KRAUTCODE)
+      }
 
-        print("i ${paletteH[15]}");
+      print("i ${paletteH[15]}");
       break;
     case "yretsym":
     case "henon":
@@ -70,19 +70,19 @@ Padding myPaletteElement(int index) {
   );
 }
 
-class SunflowerPainter extends CustomPainter {
-  static const seedRadius = 100.0;
+class MyFlowerPainter extends CustomPainter {
+  static const seedRadius = 110.0;
   static const scaleFactor = 4;
-
   final int seeds;
+  //int val=30;
 
-  SunflowerPainter(this.seeds);
+  MyFlowerPainter(this.seeds);
 
   @override
   void paint(Canvas canvas, Size size) {
     final center = size.width / 2;
     //delete later
-    final scaleFactor = 4;
+    //  final scaleFactor = 4;
     final tau = math.pi * 2;
     final phi = (math.sqrt(5) + 1) / 2;
 
@@ -105,7 +105,7 @@ class SunflowerPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(SunflowerPainter oldDelegate) {
+  bool shouldRepaint(MyFlowerPainter oldDelegate) {
     return oldDelegate.seeds != seeds;
   }
 
@@ -122,30 +122,28 @@ class SunflowerPainter extends CustomPainter {
   }
 }
 
-class Sunflower extends StatefulWidget {
-  const Sunflower({super.key});
+class MyFlower extends StatefulWidget {
+  const MyFlower({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _SunflowerState();
+    return _MyFlowerState();
   }
 }
 
-class _SunflowerState extends State<Sunflower> {
+class _MyFlowerState extends State<MyFlower> {
   double seeds = 100.0;
-  double seeds2 = 100.0;
-
+//  double seeds2 = 100.0;
+  int val = 30;
   int get seedCount => seeds.floor(); //greatest int below
 
   @override
   Widget build(BuildContext context) {
-    //const Color bgCol = Color.fromARGB(255, 200, 200, 200);
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData().copyWith(
         useMaterial3: true,
-        platform: platform,
+        //platform: platform,
         brightness: Brightness.dark,
         sliderTheme: SliderThemeData.fromPrimaryColors(
           primaryColor: primaryColor,
@@ -155,45 +153,48 @@ class _SunflowerState extends State<Sunflower> {
         ),
       ),
       home: Scaffold(
-        /*drawer: Drawer(
+        appBar: AppBar(
+          title: const Text("Draw some samples"),
+        ),
+        drawer: Drawer(
           child: ListView(
             children: const [
               DrawerHeader(
                 child: Center(
                   child: Text(
-                    "I was a Sunflower 🌻",
-                    style: TextStyle(fontSize: 32),
+                    "here you can test some layouts with your color-palette",
+                    style: TextStyle(fontSize: 12),
                   ),
                 ),
               ),
             ],
           ),
-        ),*/
+        ),
         body: Container(
           constraints: const BoxConstraints.expand(),
-          decoration: BoxDecoration(
+          /*decoration: BoxDecoration(
             border: Border.all(
               color: Colors.transparent,
             ),
-          ),
+          ),*/
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
+            //crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                decoration: BoxDecoration(
+                /*decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.transparent,
                   ),
-                ),
+                ),*/
                 child: SizedBox(
-                  width: 400,
-                  height: 400,
+                  width: canvaWidth,
+                  height: canvaHeight,
                   //https://api.flutter.dev/flutter/widgets/CustomPaint-class.html
                   child: ColoredBox(
                     color: Colors.transparent,
                     child: CustomPaint(
-                      painter: SunflowerPainter(seedCount),
+                      painter: MyFlowerPainter(seedCount),
                     ),
                   ),
                 ),
@@ -203,66 +204,24 @@ class _SunflowerState extends State<Sunflower> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-//            Row(Text("Die Bilder sind noch Platzhalter")),
-                    /*const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text("Die Bilder sind noch Platzhalter:",
-                style: TextStyle(fontSize: 19),),
-              ],
-            ),*/
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        myPaletteElement(0),
-                        myPaletteElement(1),
-                        myPaletteElement(2),
-                        myPaletteElement(3),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        myPaletteElement(4),
-                        myPaletteElement(5),
-                        myPaletteElement(6),
-                        myPaletteElement(7),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        myPaletteElement(8),
-                        myPaletteElement(9),
-                        myPaletteElement(10),
-                        myPaletteElement(11),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        myPaletteElement(12),
-                        myPaletteElement(13),
-                        myPaletteElement(14),
-                        myPaletteElement(15),
-                      ],
-                    ),
+                    //adds a vertical slider in flutter
+
+                    RotatedBox(
+                      quarterTurns: -1, // Rotate 90 degrees (vertical)
+                      child: Slider(
+                        value: val.toDouble(),
+                        min: 0.0,
+                        max: 50.0,
+                        divisions: 50,
+                        onChanged: (double newValue) {
+                          setState(() {
+                            val = newValue.round();
+                          });
+                        },
+                      ),
+                    )
                   ],
                 ),
-                /*color: Colors.transparent,
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints.tightFor(width: 300),
-                  child: Slider.adaptive(
-                    min: 3,
-                    max: 1450,
-                    value: seeds,
-                    onChanged: (newValue) {
-                      setState(() {
-                        seeds = newValue;
-                      });
-                    },
-                  ),
-                ),*/
               ),
             ],
           ),

@@ -4,8 +4,8 @@ import 'dart:math'
 
 var rng = math.Random(); // Erstellen einer neuen Instanz der Klasse Random
 
-const Color primaryColor = Colors.blue;
-const TargetPlatform platform = TargetPlatform.android;
+const Color primaryColor = Colors.blue; //not needed
+//const TargetPlatform platform = TargetPlatform.android;
 const Color bgCol = Color.fromARGB(255, 210, 210, 210);
 const Color bgColDarker = Color.fromARGB(255, 200, 200, 200);
 double mch = 0.0, mcs = 0.0, mcl = 0.5; //main color hue etc.
@@ -13,17 +13,17 @@ double mch2 = 0.0, mcs2 = 0.0, mcl2 = 0.5; //main color hue etc.
 Color mainColor = HSLColor.fromAHSL(1, mch, mcs, mcl).toColor();
 Color secondColor = HSLColor.fromAHSL(1, mch2, mcs2, mcl2).toColor();
 //Color tempColor = HSLColor.fromAHSL(1, 0, 0.52, 0.5).toColor();
-double canvaWidth = 370.0; //Abhängig vom Bildschirm machen
+double canvaWidth = 215.0; //Abhängig vom Bildschirm machen aber wann?
 double canvaHeight = canvaWidth;
 int numCanvaPoints = canvaWidth.toInt() * canvaHeight.toInt();
+double screenHeight = 0;
+double screenWidth  = 0;
 
 //  static const scaleFactor = 4;
 //  static const tau = math.pi * 2;
 
 double appBarHeight = 0;
 double wantedRest = 100;
-double screenWidth = 0;
-double screenHeight = 0;
 bool wheelCalculated = false;
 double wheelTappedX = 0, wheelTappedY = 0;
 bool setMainColor = true;
@@ -46,11 +46,11 @@ List<double> wheelH = List<double>.filled(160000,
 const double radToDegree = 57.29577951308232;
 String palletteType = "linear";
 List<double> paletteH = List<double>.filled(
-    16, 0.0); // Create a list of 16 elements, all initialized to 0
+    16, mch); // Create a list of 16 elements, all initialized
 List<double> paletteS = List<double>.filled(
-    16, 0.5); // Create a list of 16 elements, all initialized to 0.5
+    16, mcs); // Create a list of 16 elements, all initialized
 List<double> paletteL = List<double>.filled(
-    16, 0.5); // Create a list of 16 elements, all initialized to 0.5
+    16, mcl); // Create a list of 16 elements, all initialize
 
 void initColorWheel(double sizeX, double sizeY) {
   if (wheelCalculated) {

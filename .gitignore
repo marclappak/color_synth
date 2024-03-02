@@ -159,3 +159,11 @@ build/ios/iphonesimulator/Runner.app/Info.plist
 build/ios/iphonesimulator/Runner.app/PkgInfo
 build/ios/iphonesimulator/Runner.app/Runner
 .DS_Store
+.dart_tool/chrome-device/Default/Service Worker/Database/LOG
+.dart_tool/chrome-device/Default/Service Worker/Database/000003.log
+.dart_tool/chrome-device/Default/Local Storage/leveldb/LOG.old
+.dart_tool/chrome-device/Default/Local Storage/leveldb/LOG
+.dart_tool/chrome-device/Default/GCM Store/Encryption/LOG.old
+.dart_tool/chrome-device/Default/GCM Store/Encryption/LOG
+.dart_tool/chrome-device/Default/Extension State/LOG.old
+.dart_tool/chrome-device/Default/Extension State/LOG

@@ -33,43 +33,52 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      return Container(
-        color: bgColDarker,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-//            Row(Text("Die Bilder sind noch Platzhalter")),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text("Die Bilder sind noch Platzhalter:",
-                style: TextStyle(fontSize: 19),),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                myPaddingElement(1),
-                myPaddingElement(2),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                myPaddingElement(3),
-                myPaddingElement(4),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                myPaddingElement(5),
-                myPaddingElement(6),
-              ],
-            ),
-          ],
-        ),
-      );
+    screenHeight = MediaQuery.of(context).size.height;
+    screenWidth  = MediaQuery.of(context).size.width;
+//    print("height of screen=$screenHeight");
+    //canvaHeight = screenHeight / 3.333333;
+    //canvaHeight = 333;
+    //canvaHeight = 70;
+    //canvaWidth = canvaHeight;
+//    print("canvaHeight=$canvaHeight");
+    return Container(
+      color: bgColDarker,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                "Die Bilder sind noch Platzhalter:",
+                style: TextStyle(fontSize: 19),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              myPaddingElement(1),
+              myPaddingElement(2),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              myPaddingElement(3),
+              myPaddingElement(4),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              myPaddingElement(5),
+              myPaddingElement(6),
+            ],
+          ),
+        ],
+      ),
+    );
     //);
   }
 }
