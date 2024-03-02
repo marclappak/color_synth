@@ -10,11 +10,11 @@
 		</data>
 		<key>Resources/flutter_assets/AssetManifest.bin</key>
 		<data>
-		XP4g4GChN30i23ERkkx/FLVAhUg=
+		tuf3HkGr2WvJ+Ep3NsT3A0R3SHo=
 		</data>
 		<key>Resources/flutter_assets/AssetManifest.json</key>
 		<data>
-		vWwroZ6u4QN+wi6TdGdtwJsewSs=
+		DXEC65paIJEFfa7Z8ZZO6fzw/sU=
 		</data>
 		<key>Resources/flutter_assets/FontManifest.json</key>
 		<data>
@@ -23,6 +23,10 @@
 		<key>Resources/flutter_assets/NOTICES.Z</key>
 		<data>
 		RIAilnlOaIQ4G5me//hYHoX0dxY=
+		</data>
+		<key>Resources/flutter_assets/assets/images/icon.png</key>
+		<data>
+		1e9a+/+r0tcvtrL/f4Z0MLDhba8=
 		</data>
 		<key>Resources/flutter_assets/assets/images/image1.png</key>
 		<data>
@@ -58,7 +62,7 @@
 		</data>
 		<key>Resources/flutter_assets/kernel_blob.bin</key>
 		<data>
-		oFrbhE/tZsblypzECCtGV6LvBk0=
+		K6GOTDFqI64kptZ/Me8EMpz6nNE=
 		</data>
 		<key>Resources/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -86,14 +90,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			foIhZ1WgankrkStZG4R/rbP3NR5c9n5+X1DuXDQlIgY=
+			XaWgmm+LfS1+L6065iywuQdg0lOO3v5jQkydaSs0L0E=
 			</data>
 		</dict>
 		<key>Resources/flutter_assets/AssetManifest.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			mOkwc4GQpY61MhawTP5/Lm/ypDHSnTpS0pfjFGydic4=
+			E+N+BYrnT25MxbxKKbvFDJR1vnM9v/0MmT/fp+nKgJc=
 			</data>
 		</dict>
 		<key>Resources/flutter_assets/FontManifest.json</key>
@@ -108,6 +112,13 @@
 			<key>hash2</key>
 			<data>
 			C4szPdS0AD7JLMyAxOIXKRO6ASL7TphOPzbz+/rCD8o=
+			</data>
+		</dict>
+		<key>Resources/flutter_assets/assets/images/icon.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			otAbJ+ZYrchGV7jnomuTiIwydWEYTMMVFL7wvNnc3/s=
 			</data>
 		</dict>
 		<key>Resources/flutter_assets/assets/images/image1.png</key>
@@ -170,7 +181,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			3f3JYFlN0xLgAwss8isv2UzLlASyIzixNnaGW9QhcSk=
+			i5DnpAHoN1ZnK1G49otOVJ+HSWH/vqYE9Ne4/rLHafw=
 			</data>
 		</dict>
 		<key>Resources/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>

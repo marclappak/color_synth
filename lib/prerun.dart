@@ -12,6 +12,7 @@ double mch = 0.0, mcs = 0.0, mcl = 0.5; //main color hue etc.
 double mch2 = 0.0, mcs2 = 0.0, mcl2 = 0.5; //main color hue etc.
 Color mainColor = HSLColor.fromAHSL(1, mch, mcs, mcl).toColor();
 Color secondColor = HSLColor.fromAHSL(1, mch2, mcs2, mcl2).toColor();
+//Color tempColor = HSLColor.fromAHSL(1, 0, 0.52, 0.5).toColor();
 double canvaWidth = 370.0; //Abhängig vom Bildschirm machen
 double canvaHeight = canvaWidth;
 int numCanvaPoints = canvaWidth.toInt() * canvaHeight.toInt();
@@ -43,6 +44,13 @@ List<double> wheelR = List<double>.filled(
 List<double> wheelH = List<double>.filled(160000,
     -1.0); // Create a list of elements, all initialized to -1 (=nicht im Kreis)
 const double radToDegree = 57.29577951308232;
+String palletteType = "linear";
+List<double> paletteH = List<double>.filled(
+    16, 0.0); // Create a list of 16 elements, all initialized to 0
+List<double> paletteS = List<double>.filled(
+    16, 0.5); // Create a list of 16 elements, all initialized to 0.5
+List<double> paletteL = List<double>.filled(
+    16, 0.5); // Create a list of 16 elements, all initialized to 0.5
 
 void initColorWheel(double sizeX, double sizeY) {
   if (wheelCalculated) {
@@ -67,7 +75,7 @@ void initColorWheel(double sizeX, double sizeY) {
       } else {
         //im Kreis, also Farbwinkel berechenbar
         if (wheelR[i] > canvaWidth / 2) {
-       //   print("Alarm! $X $Y");
+          //   print("Alarm! $X $Y");
         }
         wheelH[i] = math.asin(Y.abs() / wheelR[i]) * radToDegree;
         //horizontale Symmetrie
@@ -117,17 +125,17 @@ void getHue(double x, double y, double newMCL) {
 //    print("dx=$dx dy=$dy radius=$radius");
     //Angle = math.asin(dy.abs() / radius) * radToDegree;
     if (dx < 0 && dy < 0) {
-    //  print("oben links");
+      //  print("oben links");
       Angle = math.asin(dy.abs() / radius) * radToDegree;
     } else if (dx >= 0 && dy < 0) {
-   //   print("oben rechts");
+      //   print("oben rechts");
       Angle = 180 - math.asin(dy.abs() / radius) * radToDegree;
     }
     if (dx < 0 && dy > 0) {
-   //   print("unten links");
+      //   print("unten links");
       Angle = 360 - math.asin(dy.abs() / radius) * radToDegree;
     } else if (dx >= 0 && dy > 0) {
-    //  print("unten rechts");
+      //  print("unten rechts");
       Angle = 180 + math.asin(dy.abs() / radius) * radToDegree;
     }
     if (setMainColor) {
@@ -140,9 +148,5 @@ void getHue(double x, double y, double newMCL) {
       mcl2 = newMCL;
     }
     setMainColor = !setMainColor;
-
-//    print("Angle=$Angle");
   }
-
-//  return Angle;
 }
