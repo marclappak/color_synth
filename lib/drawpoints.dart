@@ -43,13 +43,13 @@ Padding myPaletteElement(int index) {
         if (paletteH[i] < 0) {
           paletteH[i] += 360;
         }
-        print("$i ${paletteH[i]}");
+//        print("$i ${paletteH[i]}");
       }
       if (paletteH[15] < 0) {
         paletteH[15] += 360; //zurück ins Positive (KRAUTCODE)
       }
 
-      print("i ${paletteH[15]}");
+     // print("i ${paletteH[15]}");
       break;
     case "yretsym":
     case "henon":
@@ -71,22 +71,25 @@ Padding myPaletteElement(int index) {
 }
 
 class MyFlowerPainter extends CustomPainter {
-  static const seedRadius = 110.0;
+  //static const seedRadius = drawSlider1;
+  double seedRadius = drawSlider1;
   static const scaleFactor = 4;
-  final int seeds;
+  int seeds = 10;/*
+  int par1;
+  int par2;
+  int par3;
+  double drawSlider1=0, drawSlider2=0, drawSlider3=0;*/
   //int val=30;
-
   MyFlowerPainter(this.seeds);
+  //MyFlowerPainter(this.seeds);
 
   @override
   void paint(Canvas canvas, Size size) {
     final center = size.width / 2;
-    //delete later
-    //  final scaleFactor = 4;
     final tau = math.pi * 2;
     final phi = (math.sqrt(5) + 1) / 2;
-
-    for (var i = 0; i < seeds; i++) {
+        //print(drawSlider1);
+    for (var i = 0; i < drawSlider2.toInt(); i++) {
       final theta = i * tau / phi;
       final r = math.sqrt(i) * scaleFactor;
       final x = center + r * math.cos(theta);
@@ -116,7 +119,7 @@ class MyFlowerPainter extends CustomPainter {
       ..strokeWidth = 5
       ..style = PaintingStyle.fill
       ..color = HSLColor.fromAHSL(
-              0.75, paletteH[index], paletteS[index], paletteL[index])
+              drawSlider3, paletteH[index], paletteS[index], paletteL[index])
           .toColor();
     canvas.drawCircle(Offset(x, y), seedRadius, paint);
   }
@@ -133,9 +136,10 @@ class MyFlower extends StatefulWidget {
 
 class _MyFlowerState extends State<MyFlower> {
   double seeds = 100.0;
-//  double seeds2 = 100.0;
-  int val = 30;
-  int get seedCount => seeds.floor(); //greatest int below
+  int val1 = 30;
+  int val2 = 40;
+  int val3 = 50;
+  int get seedCount => seeds.floor();
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +147,6 @@ class _MyFlowerState extends State<MyFlower> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData().copyWith(
         useMaterial3: true,
-        //platform: platform,
         brightness: Brightness.dark,
         sliderTheme: SliderThemeData.fromPrimaryColors(
           primaryColor: primaryColor,
@@ -172,54 +175,68 @@ class _MyFlowerState extends State<MyFlower> {
         ),
         body: Container(
           constraints: const BoxConstraints.expand(),
-          /*decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.transparent,
-            ),
-          ),*/
           child: Column(
-            //crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                /*decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.transparent,
-                  ),
-                ),*/
                 child: SizedBox(
                   width: canvaWidth,
                   height: canvaHeight,
-                  //https://api.flutter.dev/flutter/widgets/CustomPaint-class.html
                   child: ColoredBox(
                     color: Colors.transparent,
                     child: CustomPaint(
-                      painter: MyFlowerPainter(seedCount),
+                      painter: MyFlowerPainter(val1),
                     ),
                   ),
                 ),
               ),
-              //Text("Showing $seedCount seeds"),
               Container(
-                child: Column(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    //adds a vertical slider in flutter
-
+                    //add vertical sliders
                     RotatedBox(
                       quarterTurns: -1, // Rotate 90 degrees (vertical)
                       child: Slider(
-                        value: val.toDouble(),
+                        value: drawSlider1,
+                        min: 1.0,
+                        max: 100.0,
+                        divisions: 50,
+                        onChanged: (double newValue) {
+                          setState(() {
+                            drawSlider1 = newValue;
+                          });
+                        },
+                      ),
+                    ),
+                    RotatedBox(
+                      quarterTurns: -1, // Rotate 90 degrees (vertical)
+                      child: Slider(
+                        value: drawSlider2,
                         min: 0.0,
                         max: 50.0,
                         divisions: 50,
                         onChanged: (double newValue) {
                           setState(() {
-                            val = newValue.round();
+                            drawSlider2 = newValue;
                           });
                         },
                       ),
-                    )
+                    ),
+                    RotatedBox(
+                      quarterTurns: -1, // Rotate 90 degrees (vertical)
+                      child: Slider(
+                        value: drawSlider3,
+                        min: 0.0,
+                        max: 1.0,
+                        divisions: 50,
+                        onChanged: (double newValue) {
+                          setState(() {
+                            drawSlider3 = newValue;
+                          });
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),

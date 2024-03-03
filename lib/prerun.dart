@@ -17,7 +17,7 @@ double canvaWidth = 215.0; //Abhängig vom Bildschirm machen aber wann?
 double canvaHeight = canvaWidth;
 int numCanvaPoints = canvaWidth.toInt() * canvaHeight.toInt();
 double screenHeight = 0;
-double screenWidth  = 0;
+double screenWidth = 0;
 
 //  static const scaleFactor = 4;
 //  static const tau = math.pi * 2;
@@ -30,7 +30,8 @@ bool setMainColor = true;
 
 double minLumi = 0;
 double lum = 50.0;
-
+double drawSlider1=40, drawSlider2=49                                                                   , drawSlider3=0.9;
+                                            
 //const Color primaryColor = Colors.orange;
 //const TargetPlatform platform = TargetPlatform.android;
 

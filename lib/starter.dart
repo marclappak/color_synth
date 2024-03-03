@@ -46,7 +46,7 @@ class MyHomePage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Row(
+          /*const Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
@@ -54,7 +54,7 @@ class MyHomePage extends StatelessWidget {
                 style: TextStyle(fontSize: 19),
               ),
             ],
-          ),
+          ),*/
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
